@@ -1,19 +1,31 @@
 # Changelog
 
-## [mod-1.3.0] - unreleased
+## [forge-1.3.0] (1.21.1) - 4/7/2025
 
 ### General
 
-- Added forge and neoforge
+- Initial release.
+
+## [neoforge-1.3.0] (1.21.1) - 4/7/2025
+
+### General
+
+- Initial release.
+
+## [fabric-1.3.0] (1.21.1) - 4/7/2025
+
+### General
+
 - Data-Driven pose fields now use snake_case instead of CamelCase
 - Changed "poses" folder to "pose" in data packs.
-- Poses now have fallback text.
+- Poses now have fallback text if a translation can't be found.
+- Arms can now be hidden (using /data or from other mods)
+- Default armor stand pose (when placed at date/time).
+  - 🎃October will use zombie pose.
+  - 🪖Memorial and Veterans Day will use salute pose.
+- This update adds support for [Armor Poser](https://www.curseforge.com/minecraft/mc-mods/armor-poser)!
 
-### New
-
-- During October armor stands will use the "Zombie" pose when placed.
-
-## [mod-1.2.0] - 7/24/2024
+## [fabric-1.2.0] - 7/24/2024
 
 ### General
 
@@ -23,19 +35,19 @@
 - You can no longer change the pose of marker armor stands.
 - Invisible or marker armor stands will not change with Redstone.
 
-## [mod-1.1.0] - 4/21/2024
+## [fabric-1.1.0] - 4/21/2024
 
 ### General
 
 - Poses now use codecs.
 
-## [mod-1.0.1] - 1/10/2024
+## [fabric-1.0.1] - 1/10/2024
 
 ### Fixes
 
 - #12 Doesn't work on servers.
 
-## [mod-1.0.0] - 10/4/2023
+## [fabric-1.0.0] - 10/4/2023
 
 - Initial Release
 

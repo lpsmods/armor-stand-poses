@@ -13,12 +13,14 @@ logoFile = "assets/${mod_id}/banner.png"
 credits = "${credits}"
 authors = "${mod_author}"
 description = '''${description}'''
+
 [[dependencies.${mod_id}]]
 modId = "forge"
 mandatory = true
 versionRange = "[${forge_version},)"
 ordering = "NONE"
 side = "BOTH"
+
 [[dependencies.${mod_id}]]
 modId = "minecraft"
 mandatory = true

@@ -13,17 +13,27 @@ logoFile="assets/${mod_id}/banner.png"
 credits="${credits}"
 authors = "${mod_author}"
 description = '''${description}'''
+
 [[mixins]]
-config = "${mod_id}.mixins.json"
+config = "${mod_id}.neoforge.mixins.json"
+
 [[dependencies.${mod_id}]]
 modId = "neoforge"
 type="required"
 versionRange = "[${neoforge_version},)"
 ordering = "NONE"
 side = "BOTH"
+
 [[dependencies.${mod_id}]]
 modId = "minecraft"
 type="required"
 versionRange = "${minecraft_version_range}"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.${mod_id}]]
+modId = "armorposer"
+type="optional"
+versionRange = "[2.2.2,)"
 ordering = "NONE"
 side = "BOTH"

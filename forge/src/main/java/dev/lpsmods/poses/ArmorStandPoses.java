@@ -1,10 +1,11 @@
 package dev.lpsmods.poses;
 
-import dev.lpsmods.poses.platform.ForgePoseLoader;
+import dev.lpsmods.poses.data.PoseLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 /**
@@ -14,16 +15,16 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 public class ArmorStandPoses {
 
     public ArmorStandPoses() {
-//        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-//        bus.addListener(this::registerReloadListener);
-        MinecraftForge.EVENT_BUS.register(this);
+        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+        bus.addListener(this::onCommonSetup);
+        MinecraftForge.EVENT_BUS.addListener(this::onServerReloadListeners);
     }
 
-//    private void registerReloadListener(AddReloadListenerEvent event) {
-//        event.addListener(new ForgePoseLoader());
-//    }
+    private void onCommonSetup(FMLCommonSetupEvent event) {
+        event.enqueueWork(Bootstrap::init);
+    }
 
-    public void onRegisterReloadListeners(AddReloadListenerEvent event) {
-        event.addListener(new ForgePoseLoader());
+    private void onServerReloadListeners(AddReloadListenerEvent event) {
+        event.addListener(new PoseLoader());
     }
 }

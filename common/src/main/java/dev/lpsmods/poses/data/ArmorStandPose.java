@@ -1,8 +1,9 @@
-package dev.lpsmods.poses.core;
+package dev.lpsmods.poses.data;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Rotations;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentSerialization;
 import net.minecraft.resources.ResourceLocation;
@@ -15,23 +16,23 @@ import java.util.Optional;
 /**
  * Author: legopitstop
  **/
-public record ArmorStandPose(int power, Pose pose, Optional<Component> displayName) {
+public record ArmorStandPose(Pose pose, Optional<Integer> power, Optional<Component> displayName) {
     public static final Codec<ArmorStandPose> CODEC = RecordCodecBuilder.create((instance) -> {
         return instance.group(
-                ExtraCodecs.intRange(1, 15).fieldOf("power").forGetter(ArmorStandPose::power),
                 Pose.CODEC.fieldOf("pose").forGetter(ArmorStandPose::pose),
+                ExtraCodecs.intRange(1, 15).optionalFieldOf("power").forGetter(ArmorStandPose::power),
                 ComponentSerialization.CODEC.optionalFieldOf("display_name").forGetter(ArmorStandPose::displayName)
         ).apply(instance, ArmorStandPose::new);
     });
 
-    public ArmorStandPose(int power, Pose pose, Optional<Component> displayName) {
+    public ArmorStandPose(Pose pose, Optional<Integer> power, Optional<Component> displayName) {
         this.displayName = displayName;
         this.power = power;
         this.pose = pose;
     }
 
     public ArmorStandPose(int power, Pose pose) {
-        this(power, pose, Optional.empty());
+        this(pose, Optional.of(power), Optional.empty());
     }
 
     public Component getName(ResourceLocation poseId) {
@@ -46,6 +47,19 @@ public record ArmorStandPose(int power, Pose pose, Optional<Component> displayNa
 
     public void setPose(ArmorStand entity) {
         this.pose.setPose(entity);
+    }
+
+    public CompoundTag save() {
+        CompoundTag compound = new CompoundTag();
+        compound.putBoolean("ShowArms", true);
+        compound.put("Pose", this.pose.save());
+        return compound;
+    }
+
+    public static ArmorStandPose fromStorage(CompoundTag compound) {
+        Pose pose = Pose.fromStorage(compound.getCompound("Pose"));
+        int power = compound.getInt("power");
+        return new ArmorStandPose(pose, Optional.of(power), Optional.empty());
     }
 
     public record Pose(Rotations head, Rotations body, Rotations leftArm, Rotations rightArm, Rotations leftLeg, Rotations rightLeg) {
@@ -76,6 +90,27 @@ public record ArmorStandPose(int power, Pose pose, Optional<Component> displayNa
             if (this.rightArm != null) {entity.setRightArmPose(this.rightArm);}
             if (this.leftLeg != null) {entity.setLeftLegPose(this.leftLeg);}
             if (this.rightLeg != null) {entity.setRightLegPose(this.rightLeg);}
+        }
+
+        public CompoundTag save() {
+            CompoundTag compound = new CompoundTag();
+            compound.put("Head", this.head.save());
+            compound.put("Body", this.body.save());
+            compound.put("LeftArm", this.leftArm.save());
+            compound.put("RightArm", this.rightArm.save());
+            compound.put("LeftLeg", this.leftLeg.save());
+            compound.put("RightLeg", this.rightLeg.save());
+            return compound;
+        }
+
+        public static Pose fromStorage(CompoundTag compound) {
+            Rotations head = new Rotations(0,0,0);
+            Rotations body = new Rotations(0,0,0);
+            Rotations leftArm = new Rotations(0,0,0);
+            Rotations rightArm = new Rotations(0,0,0);
+            Rotations leftLeg = new Rotations(0,0,0);
+            Rotations rightLeg = new Rotations(0,0,0);
+            return new Pose(head, body, leftArm, rightArm, leftLeg, rightLeg);
         }
     }
 }

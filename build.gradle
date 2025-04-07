@@ -4,3 +4,12 @@ plugins {
     // see https://projects.neoforged.net/neoforged/moddevgradle for new versions
     id 'net.neoforged.moddev' version '2.0.44-beta' apply false
 }
+
+subprojects {
+    repositories {
+        maven {
+            name = "Curseforge"
+            url "https://cursemaven.com"
+        }
+    }
+}

@@ -36,4 +36,8 @@ neoForge {
     }
 }
 
+dependencies {
+    compileOnly "curse.maven:armor-poser-450663:6210929" // neoforge-1.21.1-6.2.0
+}
+
 sourceSets.main.resources { srcDir 'src/generated/resources' }

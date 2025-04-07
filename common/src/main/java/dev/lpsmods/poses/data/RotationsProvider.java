@@ -1,4 +1,4 @@
-package dev.lpsmods.poses.core;
+package dev.lpsmods.poses.data;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
