@@ -1,5 +1,11 @@
 # Changelog
 
+## [mod-1.4.0] (1.21.3) - 4/8/2025
+
+### General
+
+- Updated for Minecraft 1.21.3
+
 ## [forge-1.3.0] (1.21.1) - 4/7/2025
 
 ### General
