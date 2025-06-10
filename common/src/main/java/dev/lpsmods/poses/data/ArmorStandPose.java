@@ -9,6 +9,7 @@ import net.minecraft.network.chat.ComponentSerialization;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.entity.decoration.ArmorStand;
+import net.minecraft.world.level.block.Rotation;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Optional;
@@ -57,8 +58,8 @@ public record ArmorStandPose(Pose pose, Optional<Integer> power, Optional<Compon
     }
 
     public static ArmorStandPose fromStorage(CompoundTag compound) {
-        Pose pose = Pose.fromStorage(compound.getCompound("Pose"));
-        int power = compound.getInt("power");
+        Pose pose = Pose.fromStorage(compound.getCompoundOrEmpty("Pose"));
+        int power = compound.getIntOr("power", 0);
         return new ArmorStandPose(pose, Optional.of(power), Optional.empty());
     }
 
@@ -94,12 +95,12 @@ public record ArmorStandPose(Pose pose, Optional<Integer> power, Optional<Compon
 
         public CompoundTag save() {
             CompoundTag compound = new CompoundTag();
-            compound.put("Head", this.head.save());
-            compound.put("Body", this.body.save());
-            compound.put("LeftArm", this.leftArm.save());
-            compound.put("RightArm", this.rightArm.save());
-            compound.put("LeftLeg", this.leftLeg.save());
-            compound.put("RightLeg", this.rightLeg.save());
+            compound.store("Head", Rotations.CODEC, this.head);
+            compound.store("Body", Rotations.CODEC, this.body);
+            compound.store("LeftArm", Rotations.CODEC, this.leftArm);
+            compound.store("RightArm", Rotations.CODEC, this.rightArm);
+            compound.store("LeftLeg", Rotations.CODEC, this.leftLeg);
+            compound.store("RightLeg", Rotations.CODEC, this.rightLeg);
             return compound;
         }
 

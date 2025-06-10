@@ -1,5 +1,11 @@
 # Changelog
 
+## [mod-1.6.0] (1.21.5) - 6/10/2025
+
+### General
+
+- Updated for Minecraft 1.21.5
+
 ## [mod-1.5.0] (1.21.4) - 6/10/2025
 
 ### General

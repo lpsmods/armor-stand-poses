@@ -57,8 +57,8 @@ public abstract class ArmorStandMixin {
     @Inject(at=@At(value="TAIL"), method="readAdditionalSaveData")
     private void readNbt(CompoundTag nbt, CallbackInfo ci) {
         // If PoseType exists.
-        this.poseType = ResourceLocation.parse(nbt.getString("PoseType"));
-        this.power = nbt.getInt("Power");
+        this.poseType = ResourceLocation.parse(nbt.getStringOr("PoseType", "default"));
+        this.power = nbt.getIntOr("Power", 0);
     }
 
     @Inject(at=@At(value = "HEAD"), method = "interactAt", cancellable = true)
