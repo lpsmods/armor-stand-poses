@@ -3,6 +3,7 @@ package dev.lpsmods.poses.data;
 import dev.lpsmods.poses.Bootstrap;
 import dev.lpsmods.poses.Constants;
 import dev.lpsmods.poses.core.PoseManager;
+import net.minecraft.resources.FileToIdConverter;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
@@ -11,7 +12,7 @@ import net.minecraft.util.profiling.ProfilerFiller;
 import java.util.Map;
 
 public class PoseLoader extends SimpleJsonResourceReloadListener<ArmorStandPose> {
-    private static final String PATH = "pose";
+    private static final FileToIdConverter PATH = FileToIdConverter.json("pose");
 
     public PoseLoader() {
         super(ArmorStandPose.CODEC, PATH);

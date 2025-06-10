@@ -10,7 +10,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Bootstrap {
-    private static Map<String, String> armorPoser = new LinkedHashMap();
+    private static final Map<String, String> armorPoser = new LinkedHashMap<>();
 
     public static void init() {
         if (Services.PLATFORM.isModLoaded("armorposer")) {

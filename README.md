@@ -1,7 +1,9 @@
-# Lightning Bolt Glass
+# Armor Stand Poses
 
-[![curseforge](https://img.shields.io/curseforge/dt/919618?logo=curseforge&label=&suffix=%20&style=flat&color=242629&labelColor=e04e14&logoColor=1c1c1c)](https://www.curseforge.com/minecraft/mc-mods/armor-stand-poses)
-[![modrinth](https://img.shields.io/modrinth/dt/armor-stand-poses?logo=modrinth&label=&suffix=%20&style=flat&color=242629&labelColor=5ca424&logoColor=1c1c1c)](https://modrinth.com/mod/armor-stand-poses)
+![Curseforge](https://img.shields.io/curseforge/dt/919618?logo=curseforge&label=&suffix=%20&style=for-the-badge&color=242629&labelColor=e04e14&logoColor=1c1c1c)
+![Modrinth](https://img.shields.io/modrinth/dt/armor-stand-poses?logo=modrinth&label=&suffix=%20&style=for-the-badge&color=242629&labelColor=5ca424&logoColor=1c1c1c)
+![Version](https://img.shields.io/curseforge/v/919618?style=for-the-badge)
+![Game Versions](https://img.shields.io/curseforge/game-versions/919618?style=for-the-badge)
 
 Bedrock armor stand poses for Java Edition.
 
@@ -12,7 +14,7 @@ Bedrock armor stand poses for Java Edition.
 | namespace | `poses`             |
 | slug      | `armor-stand-poses` |
 
-## Editions
+## Loaders
 
 - Data Pack
 - Fabric

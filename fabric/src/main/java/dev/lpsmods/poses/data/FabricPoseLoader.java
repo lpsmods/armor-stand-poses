@@ -6,6 +6,7 @@ import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
 import dev.lpsmods.poses.Bootstrap;
 import dev.lpsmods.poses.Constants;
+import dev.lpsmods.poses.core.ModUtils;
 import dev.lpsmods.poses.core.PoseManager;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
 import net.minecraft.resources.ResourceLocation;
@@ -19,7 +20,7 @@ import java.util.Map;
  * Author: legopitstop
  **/
 public class FabricPoseLoader implements SimpleSynchronousResourceReloadListener {
-    public static ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "poses");
+    public static ResourceLocation ID = ModUtils.makeId("poses");
     private static final String PATH = "pose";
 
     @Override

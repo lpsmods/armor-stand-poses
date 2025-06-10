@@ -1,11 +1,13 @@
 package dev.lpsmods.poses;
 
+import dev.lpsmods.poses.core.ModUtils;
 import dev.lpsmods.poses.data.PoseLoader;
+import net.minecraft.nbt.CompoundTag;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.event.AddReloadListenerEvent;
+import net.neoforged.neoforge.event.AddServerReloadListenersEvent;
 
 /**
  * Author: legopitstop
@@ -21,7 +23,7 @@ public class ArmorStandPoses {
         event.enqueueWork(Bootstrap::init);
     }
 
-    private void onServerReloadListeners(AddReloadListenerEvent event) {
-        event.addListener(new PoseLoader());
+    private void onServerReloadListeners(AddServerReloadListenersEvent event) {
+        event.addListener(ModUtils.makeId("poses"), new PoseLoader());
     }
 }

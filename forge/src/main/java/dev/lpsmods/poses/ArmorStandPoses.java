@@ -14,8 +14,8 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 @Mod(Constants.MOD_ID)
 public class ArmorStandPoses {
 
-    public ArmorStandPoses() {
-        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+    public ArmorStandPoses(FMLJavaModLoadingContext ctx) {
+        IEventBus bus = ctx.getModEventBus();
         bus.addListener(this::onCommonSetup);
         MinecraftForge.EVENT_BUS.addListener(this::onServerReloadListeners);
     }
