@@ -27,3 +27,10 @@ mandatory = true
 versionRange = "${minecraft_version_range}"
 ordering = "NONE"
 side = "BOTH"
+
+[[dependencies.${mod_id}]]
+modId = "framework"
+mandatory = true
+versionRange = "[${framework_version},)"
+ordering = "NONE"
+side = "BOTH"

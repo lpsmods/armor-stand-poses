@@ -1,6 +1,6 @@
 package dev.lpsmods.poses.core;
 
-import dev.lpsmods.poses.data.ArmorStandPose;
+import dev.lpsmods.poses.data.CustomPose;
 import net.minecraft.resources.ResourceLocation;
 
 import java.time.LocalDate;
@@ -11,9 +11,9 @@ import java.util.concurrent.ConcurrentHashMap;
  * Author: legopitstop
  **/
 public class PoseManager {
-    public static final ConcurrentHashMap<ResourceLocation, ArmorStandPose> POSES = new ConcurrentHashMap<>();
+    public static final ConcurrentHashMap<ResourceLocation, CustomPose> POSES = new ConcurrentHashMap<>();
 
-    public static ArmorStandPose getDefaultPose() {
+    public static CustomPose getDefaultPose() {
         return POSES.get(getDefaultPoseId());
     }
 

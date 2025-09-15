@@ -71,6 +71,8 @@ dependencies {
 
     // Forge's hack fix
     implementation('net.sf.jopt-simple:jopt-simple:5.0.4') { version { strictly '5.0.4' } }
+
+    implementation "com.mrcrayfish:framework-forge:${minecraft_version}-${framework_version}"
 }
 
 jar {

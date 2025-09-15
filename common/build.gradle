@@ -23,6 +23,7 @@ dependencies {
     annotationProcessor group: 'io.github.llamalad7', name: 'mixinextras-common', version: '0.3.5'
 
     api "curse.maven:armor-poser-450663:6210928" // 1.21.1-6.2.0
+    implementation "com.mrcrayfish:framework-common:${minecraft_version}-${framework_version}"
 }
 
 configurations {

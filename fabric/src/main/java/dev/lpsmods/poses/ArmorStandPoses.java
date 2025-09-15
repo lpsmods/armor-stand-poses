@@ -1,5 +1,6 @@
 package dev.lpsmods.poses;
 
+import com.mrcrayfish.framework.FrameworkSetup;
 import dev.lpsmods.poses.data.FabricPoseLoader;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
@@ -13,6 +14,7 @@ public class ArmorStandPoses implements ModInitializer {
     @Override
     public void onInitialize() {
         ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(new FabricPoseLoader());
+        FrameworkSetup.run();
         Bootstrap.init();
     }
 }

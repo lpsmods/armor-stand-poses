@@ -38,6 +38,7 @@ neoForge {
 
 dependencies {
     compileOnly "curse.maven:armor-poser-450663:6376951" // neoforge-1.21.5-9.0.1
+    implementation "com.mrcrayfish:framework-neoforge:${minecraft_version}-${framework_version}"
 }
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }

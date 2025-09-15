@@ -32,6 +32,13 @@ ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.${mod_id}]]
+modId = "framework"
+type="required"
+versionRange = "[${framework_version},)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.${mod_id}]]
 modId = "armorposer"
 type="optional"
 versionRange = "[2.2.2,)"

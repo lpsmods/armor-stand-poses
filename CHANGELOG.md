@@ -1,5 +1,12 @@
 # Changelog
 
+## [mod-1.7.0] (1.21.6-1.21.8) - 9/15/2025
+
+### General
+
+- Updated for Minecraft 1.21.6-1.21.8
+- pose data (head, left_arm, etc..) is now optional
+
 ## [mod-1.6.0] (1.21.5) - 6/10/2025
 
 ### General

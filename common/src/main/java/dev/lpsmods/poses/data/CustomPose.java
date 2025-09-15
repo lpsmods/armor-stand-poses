@@ -9,7 +9,6 @@ import net.minecraft.network.chat.ComponentSerialization;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.entity.decoration.ArmorStand;
-import net.minecraft.world.level.block.Rotation;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Optional;
@@ -17,22 +16,23 @@ import java.util.Optional;
 /**
  * Author: legopitstop
  **/
-public record ArmorStandPose(Pose pose, Optional<Integer> power, Optional<Component> displayName) {
-    public static final Codec<ArmorStandPose> CODEC = RecordCodecBuilder.create((instance) -> {
+public record CustomPose(ArmorStandPose pose, Optional<Integer> power, Optional<Component> displayName) {
+    private static final Rotations DEFAULT_ROTATION = new Rotations(0,0,0);
+    public static final Codec<CustomPose> CODEC = RecordCodecBuilder.create((instance) -> {
         return instance.group(
-                Pose.CODEC.fieldOf("pose").forGetter(ArmorStandPose::pose),
-                ExtraCodecs.intRange(1, 15).optionalFieldOf("power").forGetter(ArmorStandPose::power),
-                ComponentSerialization.CODEC.optionalFieldOf("display_name").forGetter(ArmorStandPose::displayName)
-        ).apply(instance, ArmorStandPose::new);
+                ArmorStandPose.CODEC.fieldOf("pose").forGetter(CustomPose::pose),
+                ExtraCodecs.intRange(1, 15).optionalFieldOf("power").forGetter(CustomPose::power),
+                ComponentSerialization.CODEC.optionalFieldOf("display_name").forGetter(CustomPose::displayName)
+        ).apply(instance, CustomPose::new);
     });
 
-    public ArmorStandPose(Pose pose, Optional<Integer> power, Optional<Component> displayName) {
+    public CustomPose(ArmorStandPose pose, Optional<Integer> power, Optional<Component> displayName) {
         this.displayName = displayName;
         this.power = power;
         this.pose = pose;
     }
 
-    public ArmorStandPose(int power, Pose pose) {
+    public CustomPose(int power, ArmorStandPose pose) {
         this(pose, Optional.of(power), Optional.empty());
     }
 
@@ -57,25 +57,25 @@ public record ArmorStandPose(Pose pose, Optional<Integer> power, Optional<Compon
         return compound;
     }
 
-    public static ArmorStandPose fromStorage(CompoundTag compound) {
-        Pose pose = Pose.fromStorage(compound.getCompoundOrEmpty("Pose"));
+    public static CustomPose fromStorage(CompoundTag compound) {
+        ArmorStandPose pose = ArmorStandPose.fromStorage(compound.getCompoundOrEmpty("Pose"));
         int power = compound.getIntOr("power", 0);
-        return new ArmorStandPose(pose, Optional.of(power), Optional.empty());
+        return new CustomPose(pose, Optional.of(power), Optional.empty());
     }
 
-    public record Pose(Rotations head, Rotations body, Rotations leftArm, Rotations rightArm, Rotations leftLeg, Rotations rightLeg) {
-        public static final Codec<Pose> CODEC = RecordCodecBuilder.create((instance) -> {
+    public record ArmorStandPose(Rotations head, Rotations body, Rotations leftArm, Rotations rightArm, Rotations leftLeg, Rotations rightLeg) {
+        public static final Codec<ArmorStandPose> CODEC = RecordCodecBuilder.create((instance) -> {
             return instance.group(
-                    RotationsProvider.CODEC.fieldOf("head").forGetter(Pose::head),
-                    RotationsProvider.CODEC.fieldOf("body").forGetter(Pose::body),
-                    RotationsProvider.CODEC.fieldOf("left_arm").forGetter(Pose::leftArm),
-                    RotationsProvider.CODEC.fieldOf("right_arm").forGetter(Pose::rightArm),
-                    RotationsProvider.CODEC.fieldOf("left_leg").forGetter(Pose::leftLeg),
-                    RotationsProvider.CODEC.fieldOf("right_leg").forGetter(Pose::rightLeg)
-            ).apply(instance, Pose::new);
+                    RotationsProvider.CODEC.fieldOf("head").orElse(DEFAULT_ROTATION).forGetter(ArmorStandPose::head),
+                    RotationsProvider.CODEC.fieldOf("body").orElse(DEFAULT_ROTATION).forGetter(ArmorStandPose::body),
+                    RotationsProvider.CODEC.fieldOf("left_arm").orElse(DEFAULT_ROTATION).forGetter(ArmorStandPose::leftArm),
+                    RotationsProvider.CODEC.fieldOf("right_arm").orElse(DEFAULT_ROTATION).forGetter(ArmorStandPose::rightArm),
+                    RotationsProvider.CODEC.fieldOf("left_leg").orElse(DEFAULT_ROTATION).forGetter(ArmorStandPose::leftLeg),
+                    RotationsProvider.CODEC.fieldOf("right_leg").orElse(DEFAULT_ROTATION).forGetter(ArmorStandPose::rightLeg)
+            ).apply(instance, ArmorStandPose::new);
         });
 
-        public Pose(Rotations head, Rotations body, Rotations leftArm, Rotations rightArm, Rotations leftLeg, Rotations rightLeg) {
+        public ArmorStandPose(Rotations head, Rotations body, Rotations leftArm, Rotations rightArm, Rotations leftLeg, Rotations rightLeg) {
             this.head = head;
             this.body = body;
             this.leftArm = leftArm;
@@ -104,14 +104,14 @@ public record ArmorStandPose(Pose pose, Optional<Integer> power, Optional<Compon
             return compound;
         }
 
-        public static Pose fromStorage(CompoundTag compound) {
+        public static ArmorStandPose fromStorage(CompoundTag compound) {
             Rotations head = new Rotations(0,0,0);
             Rotations body = new Rotations(0,0,0);
             Rotations leftArm = new Rotations(0,0,0);
             Rotations rightArm = new Rotations(0,0,0);
             Rotations leftLeg = new Rotations(0,0,0);
             Rotations rightLeg = new Rotations(0,0,0);
-            return new Pose(head, body, leftArm, rightArm, leftLeg, rightLeg);
+            return new ArmorStandPose(head, body, leftArm, rightArm, leftLeg, rightLeg);
         }
     }
 }

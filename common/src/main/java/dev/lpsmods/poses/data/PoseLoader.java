@@ -11,17 +11,17 @@ import net.minecraft.util.profiling.ProfilerFiller;
 
 import java.util.Map;
 
-public class PoseLoader extends SimpleJsonResourceReloadListener<ArmorStandPose> {
+public class PoseLoader extends SimpleJsonResourceReloadListener<CustomPose> {
     private static final FileToIdConverter PATH = FileToIdConverter.json("pose");
 
     public PoseLoader() {
-        super(ArmorStandPose.CODEC, PATH);
+        super(CustomPose.CODEC, PATH);
     }
 
     @Override
-    protected void apply(Map<ResourceLocation, ArmorStandPose> map, ResourceManager manager, ProfilerFiller profiler) {
+    protected void apply(Map<ResourceLocation, CustomPose> map, ResourceManager manager, ProfilerFiller profiler) {
         PoseManager.POSES.clear();
-        for (Map.Entry<ResourceLocation, ArmorStandPose> entry : map.entrySet()) {
+        for (Map.Entry<ResourceLocation, CustomPose> entry : map.entrySet()) {
             PoseManager.POSES.put(entry.getKey(), entry.getValue());
         }
         Constants.LOG.info("Loaded {} poses", PoseManager.POSES.size());

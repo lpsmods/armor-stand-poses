@@ -36,7 +36,7 @@ public class FabricPoseLoader implements SimpleSynchronousResourceReloadListener
             ResourceLocation id = resourceId.withPath(resourceId.getPath().replace(PATH+"/", "").replace(".json", ""));
             try {
                 JsonObject jsonObj = (JsonObject) JsonParser.parseReader(new InputStreamReader(resources.get(resourceId).open()));
-                DataResult<ArmorStandPose> res =  ArmorStandPose.CODEC.parse(JsonOps.INSTANCE, jsonObj);
+                DataResult<CustomPose> res =  CustomPose.CODEC.parse(JsonOps.INSTANCE, jsonObj);
                 if (res.isError()) {
                     Constants.LOG.error("{} | parse error:\n\t{}", id, res.error().get().message());
                     continue;
