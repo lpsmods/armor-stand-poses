@@ -2,9 +2,9 @@
   "required": true,
   "minVersion": "0.8",
   "package": "dev.lpsmods.poses.mixin",
-  "compatibilityLevel": "JAVA_21",
+  "compatibilityLevel": "JAVA_25",
   "mixins": [
-    "ArmorStandMixin"
+    "ArmorStandMixin", "LivingEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1

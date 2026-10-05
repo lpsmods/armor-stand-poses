@@ -29,7 +29,6 @@
         "java": ">=${java_version}"
     },
     "suggests": {
-        "armorposer": ">=2.2.2"
+        "armorposer": ">=16.0.1"
     }
 }
-  

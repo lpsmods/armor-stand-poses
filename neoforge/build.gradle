@@ -10,10 +10,7 @@ neoForge {
     if (at.exists()) {
         accessTransformers.add(at.absolutePath)
     }
-    parchment {
-        minecraftVersion = parchment_minecraft
-        mappingsVersion = parchment_version
-    }
+
     runs {
         configureEach {
             systemProperty('neoforge.enabledGameTestNamespaces', mod_id)
@@ -23,7 +20,7 @@ neoForge {
             client()
         }
         data {
-            data()
+            clientData()
         }
         server {
             server()
@@ -37,7 +34,8 @@ neoForge {
 }
 
 dependencies {
-    compileOnly "curse.maven:armor-poser-450663:6210929" // neoforge-1.21.1-6.2.0
+    compileOnly "maven.modrinth:armor-poser:l4DsCldf"
+
 }
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }

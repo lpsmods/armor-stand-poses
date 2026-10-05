@@ -6,7 +6,7 @@ import net.minecraft.core.Rotations;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentSerialization;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import org.apache.commons.lang3.StringUtils;
@@ -35,13 +35,13 @@ public record ArmorStandPose(Pose pose, Optional<Integer> power, Optional<Compon
         this(pose, Optional.of(power), Optional.empty());
     }
 
-    public Component getName(ResourceLocation poseId) {
+    public Component getName(Identifier poseId) {
         String fallback = StringUtils.capitalize(poseId.getPath().replace("_", " "));
         Component displayName = Component.translatableWithFallback("pose."+poseId.getNamespace()+"."+poseId.getPath(), fallback);
         return this.displayName.orElse(displayName);
     }
 
-    public String getFallback(ResourceLocation poseId) {
+    public String getFallback(Identifier poseId) {
         return "Changed Pose: " + this.getName(poseId).getString();
     }
 
@@ -57,8 +57,8 @@ public record ArmorStandPose(Pose pose, Optional<Integer> power, Optional<Compon
     }
 
     public static ArmorStandPose fromStorage(CompoundTag compound) {
-        Pose pose = Pose.fromStorage(compound.getCompound("Pose"));
-        int power = compound.getInt("power");
+        Pose pose = Pose.fromStorage(compound.getCompoundOrEmpty("Pose"));
+        int power = compound.getIntOr("power", 0);
         return new ArmorStandPose(pose, Optional.of(power), Optional.empty());
     }
 
@@ -93,24 +93,15 @@ public record ArmorStandPose(Pose pose, Optional<Integer> power, Optional<Compon
         }
 
         public CompoundTag save() {
-            CompoundTag compound = new CompoundTag();
-            compound.put("Head", this.head.save());
-            compound.put("Body", this.body.save());
-            compound.put("LeftArm", this.leftArm.save());
-            compound.put("RightArm", this.rightArm.save());
-            compound.put("LeftLeg", this.leftLeg.save());
-            compound.put("RightLeg", this.rightLeg.save());
-            return compound;
+            ArmorStand.ArmorStandPose vanillaPose = new ArmorStand.ArmorStandPose(head, body, leftArm, rightArm, leftLeg, rightLeg);
+            return ArmorStand.ArmorStandPose.CODEC.encodeStart(net.minecraft.nbt.NbtOps.INSTANCE, vanillaPose)
+                    .getOrThrow().asCompound().orElseThrow();
         }
 
         public static Pose fromStorage(CompoundTag compound) {
-            Rotations head = new Rotations(0,0,0);
-            Rotations body = new Rotations(0,0,0);
-            Rotations leftArm = new Rotations(0,0,0);
-            Rotations rightArm = new Rotations(0,0,0);
-            Rotations leftLeg = new Rotations(0,0,0);
-            Rotations rightLeg = new Rotations(0,0,0);
-            return new Pose(head, body, leftArm, rightArm, leftLeg, rightLeg);
+            ArmorStand.ArmorStandPose pose = ArmorStand.ArmorStandPose.CODEC
+                    .parse(net.minecraft.nbt.NbtOps.INSTANCE, compound).getOrThrow();
+            return new Pose(pose.head(), pose.body(), pose.leftArm(), pose.rightArm(), pose.leftLeg(), pose.rightLeg());
         }
     }
 }

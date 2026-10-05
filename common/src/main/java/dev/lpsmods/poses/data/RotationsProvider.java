@@ -38,6 +38,6 @@ public record RotationsProvider(float pitch, float yaw, float roll) {
     }
 
     public static List<Float> toList(Rotations rotations) {
-        return Arrays.asList(rotations.getX(), rotations.getY(), rotations.getZ());
+        return Arrays.asList(rotations.x(), rotations.y(), rotations.z());
     }
 }

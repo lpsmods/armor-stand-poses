@@ -5,12 +5,13 @@ import dev.lpsmods.poses.core.PoseManager;
 import dev.lpsmods.poses.data.ArmorStandPose;
 import dev.lpsmods.poses.platform.Services;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.EntityType;
+
 import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -29,16 +30,20 @@ import java.util.Map;
  * Author: legopitstop
  **/
 @Mixin(ArmorStand.class)
-public abstract class ArmorStandMixin {
-    private static ResourceLocation DEFAULT_POSE_TYPE = PoseManager.getDefaultPoseId();
-    private ResourceLocation poseType = DEFAULT_POSE_TYPE;
+public abstract class ArmorStandMixin implements dev.lpsmods.poses.core.PosedArmorStand {
+    @Unique
+    private static final Identifier DEFAULT_POSE_TYPE = PoseManager.getDefaultPoseId();
+    @Unique
+    private Identifier poseType = DEFAULT_POSE_TYPE;
+    @Unique
     private int lastPower;
+    @Unique
     private int power;
 
     @Inject(at=@At("TAIL"), method= "<init>")
     public void initInject(CallbackInfo io) {
         ArmorStand entity = (ArmorStand)(Object)this;
-        if (!entity.level().isClientSide) {
+        if (!entity.level().isClientSide()) {
             this.init(entity);
         }
     }
@@ -49,51 +54,52 @@ public abstract class ArmorStandMixin {
     }
 
     @Inject(at=@At(value="TAIL"), method="addAdditionalSaveData")
-    private void writeNbt(CompoundTag nbt, CallbackInfo ci) {
+    private void writeNbt(ValueOutput nbt, CallbackInfo ci) {
         nbt.putString("PoseType", this.poseType.toString());
         nbt.putInt("Power", this.power);
     }
 
     @Inject(at=@At(value="TAIL"), method="readAdditionalSaveData")
-    private void readNbt(CompoundTag nbt, CallbackInfo ci) {
+    private void readNbt(ValueInput nbt, CallbackInfo ci) {
         // If PoseType exists.
-        this.poseType = ResourceLocation.parse(nbt.getString("PoseType"));
-        this.power = nbt.getInt("Power");
+        Identifier savedPose = Identifier.tryParse(nbt.getStringOr("PoseType", DEFAULT_POSE_TYPE.toString()));
+        this.poseType = savedPose == null ? DEFAULT_POSE_TYPE : savedPose;
+        this.power = nbt.getIntOr("Power", 0);
     }
 
-    @Inject(at=@At(value = "HEAD"), method = "interactAt", cancellable = true)
-    private void injectInteractAt(Player player, Vec3 vec, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
+    @Inject(at=@At(value = "HEAD"), method = "interact", cancellable = true)
+    private void injectInteractAt(Player player, InteractionHand hand, Vec3 vec, CallbackInfoReturnable<InteractionResult> cir) {
         // Ignore if armorposer mod is installed.
         if (!Services.PLATFORM.isModLoaded("armorposer")) {
-            if (player.level().isClientSide) {return;}
+            if (player.level().isClientSide()) {return;}
             ArmorStand entity = (ArmorStand)(Object)this;
             ItemStack itemStack = player.getItemInHand(hand);
             if (itemStack.isEmpty() && player.isShiftKeyDown() && entity.canBeSeenByAnyone() && this.power == 0) {
-                ResourceLocation poseId = setNextPoseType(true, cir);
+                Identifier poseId = setNextPoseType(true, cir);
                 if (poseId != null) {
                     ArmorStandPose pose = PoseManager.POSES.get(poseId);
-                    player.displayClientMessage(Component.translatableWithFallback(EntityType.ARMOR_STAND.getDescriptionId() + ".pose", pose.getFallback(poseId), pose.getName(poseId)), true);
+                    player.sendOverlayMessage(Component.translatableWithFallback(entity.getType().getDescriptionId() + ".pose", pose.getFallback(poseId), pose.getName(poseId)));
                 }
             }
         }
     }
 
     @Unique
-    public ResourceLocation getPoseType() {
+    public Identifier getPoseType() {
         return this.poseType == null ? DEFAULT_POSE_TYPE : this.poseType;
     }
 
     @Unique
-    public ResourceLocation setNextPoseType(boolean notify, CallbackInfoReturnable<InteractionResult> cir) {
-        ResourceLocation poseId = PoseManager.getDefaultPoseId();
-        ArrayList<ResourceLocation> list = new ArrayList<ResourceLocation>();
-        for (Map.Entry<ResourceLocation, ArmorStandPose> entry : PoseManager.POSES.entrySet()) {
+    public Identifier setNextPoseType(boolean notify, CallbackInfoReturnable<InteractionResult> cir) {
+        Identifier poseId = PoseManager.getDefaultPoseId();
+        ArrayList<Identifier> list = new ArrayList<Identifier>();
+        for (Map.Entry<Identifier, ArmorStandPose> entry : PoseManager.POSES.entrySet()) {
             list.add(entry.getKey());
         }
         for (int i=0; i<list.size(); i++) {
-            ResourceLocation id = list.get(i);
+            Identifier id = list.get(i);
             if (id.equals(this.getPoseType())) {
-                ResourceLocation next = i<list.size()-1 ? list.get(i+1) : null;
+                Identifier next = i<list.size()-1 ? list.get(i+1) : null;
                 if (next != null) {
                     poseId = this.setPoseType(next, notify);
                 } else {
@@ -108,7 +114,7 @@ public abstract class ArmorStandMixin {
 
     @Unique
     public void setPowerPoseType(int power, boolean notify) {
-        for (Map.Entry<ResourceLocation, ArmorStandPose> entry : PoseManager.POSES.entrySet()) {
+        for (Map.Entry<Identifier, ArmorStandPose> entry : PoseManager.POSES.entrySet()) {
             ArmorStandPose pose = entry.getValue();
             if (!pose.power().isPresent()) continue;
             if (pose.power().get() ==  power) {
@@ -119,7 +125,7 @@ public abstract class ArmorStandMixin {
     }
 
     @Unique
-    public ResourceLocation setPoseType(ResourceLocation poseId, boolean notify) {
+    public Identifier setPoseType(Identifier poseId, boolean notify) {
         ArmorStand entity = (ArmorStand)(Object)this;
         ArmorStandPose pose = PoseManager.POSES.get(poseId);
         if (pose != null) {
@@ -132,10 +138,10 @@ public abstract class ArmorStandMixin {
         return poseId;
     }
 
-    @Inject(at=@At("TAIL"), method="tick")
-    public void injectTick(CallbackInfo ci) {
+    @Unique
+    public void posesTick() {
         ArmorStand entity = (ArmorStand)(Object)this;
-        if (!entity.level().isClientSide && !entity.isIgnoringBlockTriggers()) {
+        if (!entity.level().isClientSide() && !entity.isIgnoringBlockTriggers()) {
             BlockPos sourcePos = entity.getOnPos();
             this.power = entity.level().getDirectSignalTo(sourcePos);
             if (this.power != this.lastPower) {

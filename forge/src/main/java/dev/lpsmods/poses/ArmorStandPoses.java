@@ -1,9 +1,9 @@
 package dev.lpsmods.poses;
 
 import dev.lpsmods.poses.data.PoseLoader;
-import net.minecraftforge.common.MinecraftForge;
+
 import net.minecraftforge.event.AddReloadListenerEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
+
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -14,10 +14,10 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 @Mod(Constants.MOD_ID)
 public class ArmorStandPoses {
 
-    public ArmorStandPoses() {
-        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-        bus.addListener(this::onCommonSetup);
-        MinecraftForge.EVENT_BUS.addListener(this::onServerReloadListeners);
+    public ArmorStandPoses(FMLJavaModLoadingContext context) {
+        var bus = context.getModBusGroup();
+        FMLCommonSetupEvent.getBus(bus).addListener(this::onCommonSetup);
+        AddReloadListenerEvent.BUS.addListener(this::onServerReloadListeners);
     }
 
     private void onCommonSetup(FMLCommonSetupEvent event) {
