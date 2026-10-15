@@ -1,25 +1,24 @@
 # Armor Stand Poses
 
 ![Curseforge](https://img.shields.io/curseforge/dt/919618?logo=curseforge&label=&suffix=%20&style=for-the-badge&color=242629&labelColor=e04e14&logoColor=1c1c1c)
-![Modrinth](https://img.shields.io/modrinth/dt/armor-stand-poses?logo=modrinth&label=&suffix=%20&style=for-the-badge&color=242629&labelColor=5ca424&logoColor=1c1c1c)
 ![Version](https://img.shields.io/curseforge/v/919618?style=for-the-badge)
 ![Game Versions](https://img.shields.io/curseforge/game-versions/919618?style=for-the-badge)
 
-Bedrock armor stand poses for Java Edition.
+Bedrock armor stand poses for Java Edition
+
+## Contributing
+
+This repository has multiple branches for each platform this Minecraft mod supports.
+
+- [`1.21`](https://github.com/lpsmods/armor-stand-poses/tree/1.21)
+- [`datapack`](https://github.com/lpsmods/armor-stand-poses/tree/datapack)
 
 ## Mod Data
 
-| Key       | Value               |
-|-----------|---------------------|
-| namespace | `poses`             |
-| slug      | `armor-stand-poses` |
-
-## Loaders
-
-- Data Pack
-- Fabric
-- Forge
-- NeoForge
+| Key               | Value               |
+| ----------------- | ------------------- |
+| namespace         | `lpsm_asp`          |
+| armor-stand-poses | `armor-stand-poses` |
 
 ## LINKS
 
