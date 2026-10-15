@@ -15,10 +15,10 @@ This repository has multiple branches for each platform this Minecraft mod suppo
 
 ## Mod Data
 
-| Key               | Value               |
-| ----------------- | ------------------- |
-| namespace         | `lpsm_asp`          |
-| armor-stand-poses | `armor-stand-poses` |
+| Key       | Value               |
+| ----------| ------------------- |
+| namespace | `lpsm_asp`          |
+| slug      | `armor-stand-poses` |
 
 ## LINKS
 
