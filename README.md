@@ -10,7 +10,7 @@ Bedrock armor stand poses for Java Edition
 
 This repository has multiple branches for each platform this Minecraft mod supports.
 
-- [`1.21`](https://github.com/lpsmods/armor-stand-poses/tree/1.21)
+- [`java`](https://github.com/lpsmods/armor-stand-poses/tree/26.3)
 - [`datapack`](https://github.com/lpsmods/armor-stand-poses/tree/datapack)
 
 ## Mod Data
