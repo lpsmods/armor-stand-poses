@@ -4,7 +4,7 @@
 
 ### General
 
-- Added support for Minecraft 26.3
+- Updated for Minecraft 26.3
 
 ## [1.6.0] - 2/17/2026
 
